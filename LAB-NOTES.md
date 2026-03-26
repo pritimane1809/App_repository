@@ -366,4 +366,160 @@ This task implements:
 
 It significantly improves scalability and maintainability of CI/CD pipelines across multiple repositories.
 
+---
+
+# 📄 Task 4 – Security & Notifications Workflow 
+
+## 🔹 Purpose of the Workflow
+
+This task enhances the reusable CI/CD workflow by integrating:
+
+* **Security scanning** of Docker images
+* **Automated failure handling** for vulnerabilities
+* **Real-time notifications** via Slack
+
+The goal is to ensure that only secure container images are deployed while keeping the team informed about pipeline status.
+
+---
+
+## 🔹 Key Configuration Details
+
+### 🔐 Security Scanning Integration
+
+* **Tool Used:** Trivy (container vulnerability scanner)
+
+* **Workflow Step:**
+
+  ```yaml
+  - name: Scan Docker Image with Trivy
+    uses: aquasecurity/trivy-action@0.20.0
+    with:
+      image-ref: ${{ inputs.image_name }}:${{ inputs.tag }}
+      format: table
+      exit-code: 1
+      severity: HIGH,CRITICAL
+  ```
+
+### 📌 Functionality
+
+* Scans the built Docker image for vulnerabilities
+* Focuses on:
+
+  * HIGH severity
+  * CRITICAL severity
+* Automatically **fails the pipeline** if such vulnerabilities are found
+
+---
+
+### 🔔 Slack Notification Integration
+
+* Notifications are sent using Slack Incoming Webhooks
+
+---
+
+### ✅ Success Notification Step
+
+```yaml
+- name: Notify Slack on Success
+  if: success()
+  run: |
+    curl -X POST -H 'Content-type: application/json' \
+    --data '{"text":"✅ Docker image built and pushed successfully: '${{ inputs.image_name }}':'${{ inputs.tag }}'"}' \
+    ${{ secrets.SLACK_WEBHOOK_URL }}
+```
+
+---
+
+### ❌ Failure Notification Step
+
+```yaml
+- name: Notify Slack on Failure
+  if: failure()
+  run: |
+    curl -X POST -H 'Content-type: application/json' \
+    --data '{"text":"❌ CI/CD failed for image: '${{ inputs.image_name }}':'${{ inputs.tag }}'. Check logs."}' \
+    ${{ secrets.SLACK_WEBHOOK_URL }}
+```
+
+---
+
+### 🔄 Workflow Behavior
+
+* If scan passes → image is pushed → success notification sent
+* If scan fails → pipeline stops → failure notification sent
+
+---
+
+## 🔹 Secrets Used and Why
+
+### 🔐 Required Secrets
+
+* `DOCKER_USERNAME`
+* `DOCKER_PASSWORD`
+* `SLACK_WEBHOOK_URL`
+
+---
+
+### 📌 Purpose
+
+* **DOCKER_USERNAME & DOCKER_PASSWORD**
+
+  * Authenticate with Docker Hub
+  * Enable pushing Docker images securely
+
+* **SLACK_WEBHOOK_URL**
+
+  * Sends HTTP POST requests to Slack channel
+  * Enables automated notifications without exposing credentials
+
+---
+
+
+## 🔹 How to Verify Success
+
+### ✅ 1. GitHub Actions Logs
+
+---
+
+
+---
+
+### ✅ 2. Docker Hub Verification
+
+Check your repository on Docker Hub
+
+✔️ Image should be present only if:
+
+* Scan passes
+* Push step executes successfully
+
+---
+
+### ✅ 3. Slack Notifications
+
+* Check your Slack channel
+
+✔️ On success:
+
+```
+✅ Docker image built and pushed successfully
+```
+
+✔️ On failure:
+
+```
+❌ CI/CD failed... Check GitHub Actions logs
+```
+---
+
+## 🔹 Summary
+
+This workflow enhancement:
+
+* Integrates automated **security scanning**
+* Enforces strict **failure conditions** for vulnerabilities
+* Adds **real-time Slack notifications**
+* Improves overall **security, visibility, and reliability** of the CI/CD pipeline
+
+It represents a production-ready CI/CD practice aligned with DevSecOps principles.
 
