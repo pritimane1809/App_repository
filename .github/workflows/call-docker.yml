@@ -8,7 +8,7 @@ on:
 
 jobs:
   call-workflow:
-    uses: <your-username>/<workflow-repo>/.github/workflows/docker-ci.yml@v1.0.0
+    uses: pritimane1809/Workflow_repository/.github/workflows/docker-ci.yml@v1.0.0
 
     with:
       image_name: my-app   # ✅ only plain string or github context
