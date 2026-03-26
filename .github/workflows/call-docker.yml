@@ -8,10 +8,10 @@ on:
 
 jobs:
   call-workflow:
-    uses: pritimane1809/Workflow_repository/.github/workflows/docker-ci.yml@v1.0.0
+    uses: <your-username>/<workflow-repo>/.github/workflows/docker-ci.yml@v1.0.0
 
     with:
-      image_name: ${{ secrets.DOCKER_USERNAME }}/my-app
+      image_name: my-app   # ✅ only plain string or github context
       tag: ${{ github.ref == 'refs/heads/develop' && format('staging-{0}', github.sha) || format('prod-{0}', github.run_number) }}
 
     secrets:
