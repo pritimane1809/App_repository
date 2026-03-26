@@ -72,10 +72,162 @@ The purpose of this workflow is to:
 
 ## 🔹 Summary
 
-This workflow demonstrates a basic CI setup where:
+This workflow demonstrates a basic CI setup.
 
-* A workflow is triggered on every push
-* A job runs on a virtual machine
-* A simple command is executed and verified via logs
+---
 
-It serves as the **first step toward building a complete CI/CD pipeline**.
+# 📄 Task 2 – Docker Build & Push Workflow
+
+## 🔹 Purpose of the Workflow
+
+This workflow automates the process of:
+
+* Building a Docker image from the application source code
+* Tagging the image with both `latest` and a unique commit SHA
+* Pushing the image to Docker Hub
+
+It ensures that every code change is containerized and ready for deployment, forming a key part of a CI/CD pipeline.
+
+---
+
+## 🔹 Key Configuration Details
+
+### 📁 Files Added
+
+* `.dockerignore` → Excludes unnecessary files from the build context
+* `Dockerfile` → Defines a multi-stage Docker build process
+* `.github/workflows/docker.yml` → GitHub Actions workflow file
+
+---
+
+### ⚙️ Workflow Configuration
+
+* **Workflow Name:**
+  `Docker Build & Push`
+
+* **Trigger Event:**
+
+  ```yaml
+  on:
+    push:
+      branches:
+        - main
+  ```
+
+  * Executes on every push to the `main` branch
+
+---
+
+### 🏗️ Job Configuration
+
+```yaml
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+```
+
+* Uses a GitHub-hosted Ubuntu runner
+
+---
+
+### 🔄 Steps Overview
+
+1. **Checkout Code**
+
+   ```yaml
+   uses: actions/checkout@v4
+   ```
+
+2. **Login to Docker Hub**
+
+   ```yaml
+   uses: docker/login-action@v3
+   ```
+
+   * Authenticates using GitHub Secrets
+
+3. **Extract Commit SHA**
+
+   ```yaml
+   git rev-parse --short HEAD
+   ```
+
+   * Generates a unique tag for versioning
+
+4. **Build Docker Image**
+
+   ```bash
+   docker build -t <username>/my-app:latest \
+                -t <username>/my-app:<commit-sha> .
+   ```
+
+5. **Push Docker Image**
+
+   ```bash
+   docker push <username>/my-app:latest
+   docker push <username>/my-app:<commit-sha>
+   ```
+
+---
+
+### 🐳 Docker Configuration
+
+* **Tags Used:**
+
+  * `latest` → Always points to the newest version
+  * `<commit-sha>` → Ensures traceability of builds
+
+---
+
+## 🔹 Secrets Used and Why
+
+### 🔐 Required Secrets
+
+* `DOCKER_USERNAME`
+* `DOCKER_PASSWORD`
+
+### 📌 Purpose
+
+* Authenticate securely with Docker Hub
+* Prevent exposing credentials in code
+* Enable pushing images to the Docker registry
+
+---
+
+## 🔹 How to Verify Success
+
+### ✅ 1. GitHub Actions Logs
+
+* Go to the **Actions tab**
+* Open **Docker Build & Push workflow**
+
+<img width="1887" height="650" alt="T2-2 1" src="https://github.com/user-attachments/assets/8a110b60-83bb-44fc-9706-c308c709d13a" />
+
+
+
+<img width="1840" height="866" alt="T2-2 2" src="https://github.com/user-attachments/assets/532e63fd-ab48-4f03-935e-b186f9e3d550" />
+
+
+
+<img width="1834" height="848" alt="T2-2 3" src="https://github.com/user-attachments/assets/63fd13a6-c56f-4c81-9233-7c2692537ea6" />
+
+---
+
+### ✅ 2. Docker Hub Verification
+
+Check your repository on Docker Hub
+
+<img width="1874" height="773" alt="T2-2 4" src="https://github.com/user-attachments/assets/900c662d-7d52-4bd2-bd8f-ed0be2a3195f" />
+
+---
+
+## 🔹 Summary
+
+This workflow:
+
+* Automates Docker image creation and publishing
+* Uses secure authentication via GitHub Secrets
+* Implements versioning using commit SHA
+* Enables consistent and repeatable container builds
+
+
