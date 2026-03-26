@@ -1,10 +1,13 @@
-FROM node:18
-
+# Stage 1: Build
+FROM node:18 AS builder
 WORKDIR /app
-
-COPY package.json .
+COPY package*.json ./
 RUN npm install
+COPY . .
 
-COPY app/ .
-
-CMD ["node", "index.js"]
+# Stage 2: Production
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app /app
+EXPOSE 3000
+CMD ["npm", "start"]
