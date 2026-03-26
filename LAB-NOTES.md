@@ -345,7 +345,9 @@ uses: <username>/<workflow-repo>/.github/workflows/docker-ci.yml@v1.0.0
 ## 🔹 How to Verify Success
 
 ### ✅ 1. GitHub Actions Logs
-l
+
+<img width="1769" height="789" alt="T3-3 1" src="https://github.com/user-attachments/assets/81cdfdb2-706d-4b2b-babb-8f6562f61151" />
+
 
 ---
 
@@ -479,8 +481,7 @@ The goal is to ensure that only secure container images are deployed while keepi
 
 ### ✅ 1. GitHub Actions Logs
 
----
-
+<img width="1766" height="785" alt="T4-4 1" src="https://github.com/user-attachments/assets/09f1dfb2-7a88-445f-ae69-5135e1c755d9" />
 
 ---
 
