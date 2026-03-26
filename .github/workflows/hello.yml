@@ -1,0 +1,14 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - '**'   # triggers on push to any branch
+
+jobs:
+  hello-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Hello Message
+        run: echo "Hello GitHub Actions!"
