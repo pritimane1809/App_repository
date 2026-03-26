@@ -229,5 +229,141 @@ This workflow:
 * Uses secure authentication via GitHub Secrets
 * Implements versioning using commit SHA
 * Enables consistent and repeatable container builds
+---
+
+# 📄 Task 3 – Shared Workflow Repository & Release 
+
+## 🔹 Purpose of the Workflow
+
+This task introduces a **reusable GitHub Actions workflow** to centralize Docker CI/CD logic across multiple repositories.
+
+The workflow:
+
+* Promotes **code reuse** and avoids duplication of CI/CD configurations
+* Enables **standardized Docker build and push processes**
+* Supports **environment-based tagging** (staging and production)
+* Uses versioned releases for **controlled and stable workflow usage**
+
+---
+
+## 🔹 Key Configuration Details
+
+### 📁 Workflow Repository Setup
+
+* **Workflow File:**
+  `.github/workflows/docker-ci.yml`
+
+* **Trigger Type:**
+
+  ```yaml
+  on:
+    workflow_call:
+  ```
+
+  * Enables the workflow to be reused by other repositories
+
+---
+
+### 🔧 Inputs & Secrets
+
+```yaml
+inputs:
+  image_name:
+    required: true
+    type: string
+  tag:
+    required: true
+    type: string
+
+secrets:
+  DOCKER_USERNAME:
+    required: true
+  DOCKER_PASSWORD:
+    required: true
+```
+
+* Accepts dynamic values for image name and tag
+* Uses secrets securely for authentication
+
+---
+
+### 🏷️ Versioning via Release
+
+* A release is created in the Workflow Repository:
+
+  ```
+  v1.0.0
+  ```
+* Ensures:
+
+  * Stability of workflow usage
+  * Version control for CI/CD logic
+  * Safe upgrades in future versions
+
+---
+
+### 🔗 App Repository Integration
+
+* **Caller Workflow File:**
+  `.github/workflows/call-docker.yml`
+
+* **Trigger:**
+
+  ```yaml
+  on:
+    push:
+      branches:
+        - develop
+        - main
+  ```
+
+---
+
+### 🔄 Reusable Workflow Call
+
+```yaml
+uses: <username>/<workflow-repo>/.github/workflows/docker-ci.yml@v1.0.0
+```
+
+---
+
+## 🔹 Secrets Used and Why
+
+### 🔐 Required Secrets
+
+* `DOCKER_USERNAME`
+* `DOCKER_PASSWORD`
+
+### 📌 Purpose
+
+* Authenticate with Docker Hub
+* Allow secure image push operations
+* Prevent exposure of credentials in workflow code
+
+---
+
+## 🔹 How to Verify Success
+
+### ✅ 1. GitHub Actions Logs
+l
+
+---
+
+### ✅ 2. Docker Hub Verification
+
+Check your repository on Docker Hub
+
+---
+
+## 🔹 Summary
+
+This task implements:
+
+* A **centralized reusable CI/CD workflow**
+* Version-controlled workflow usage via release tags
+* Environment-based Docker image tagging
+* Secure handling of credentials
+
+It significantly improves scalability and maintainability of CI/CD pipelines across multiple repositories.
 
 
