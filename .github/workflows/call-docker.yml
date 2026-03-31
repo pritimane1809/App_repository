@@ -8,7 +8,7 @@ on:
 
 jobs:
   call-reusable-workflow:
-    uses: <your-username>/workflow-repo/.github/workflows/docker-ci.yml@main
+    uses: pritimane1809/Workkflow_repository/.github/workflows/docker-ci.yml@main
 
     with:
       image_name: docker.io/paulphillip01/my-app
