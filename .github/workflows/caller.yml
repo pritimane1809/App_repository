@@ -1,0 +1,20 @@
+name: Call Reusable Workflow
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  call-reusable-workflow:
+    uses: pritimane1809/workflow-repo/.github/workflows/reusable.yml@main
+
+    with:
+      image_name: docker.io/paulphillip01/my-app
+
+      tag: ${{ github.ref == 'refs/heads/develop' && format('staging-{0}', github.sha) || format('prod-{0}', github.run_number) }}
+
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
