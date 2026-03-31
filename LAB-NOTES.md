@@ -346,7 +346,15 @@ uses: <username>/<workflow-repo>/.github/workflows/docker-ci.yml@v1.0.0
 
 ### ✅ 1. GitHub Actions Logs
 
-<img width="1769" height="789" alt="T3-3 1" src="https://github.com/user-attachments/assets/81cdfdb2-706d-4b2b-babb-8f6562f61151" />
+<img width="1890" height="632" alt="T3-3 1" src="https://github.com/user-attachments/assets/25736d40-5075-4a98-a360-f771b5fa834a" />
+
+
+
+<img width="1844" height="806" alt="T3-3 2" src="https://github.com/user-attachments/assets/da4b7acc-f491-4353-9725-76c91c1e3c23" />
+
+
+
+<img width="1845" height="828" alt="T3-3 3" src="https://github.com/user-attachments/assets/f1315233-6991-4c67-ba0e-84020b6b0f3b" />
 
 
 ---
