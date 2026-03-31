@@ -435,7 +435,7 @@ The goal is to ensure that only secure container images are deployed while keepi
   run: |
     curl -X POST -H 'Content-type: application/json' \
     --data '{"text":"✅ Docker image built and pushed successfully: '${{ inputs.image_name }}':'${{ inputs.tag }}'"}' \
-    ${{ secrets.SLACK_WEBHOOK_URL }}
+    ${{ secrets.SLACK_WEBHOOK }}
 ```
 
 ---
@@ -448,7 +448,7 @@ The goal is to ensure that only secure container images are deployed while keepi
   run: |
     curl -X POST -H 'Content-type: application/json' \
     --data '{"text":"❌ CI/CD failed for image: '${{ inputs.image_name }}':'${{ inputs.tag }}'. Check logs."}' \
-    ${{ secrets.SLACK_WEBHOOK_URL }}
+    ${{ secrets.SLACK_WEBHOOK }}
 ```
 
 ---
@@ -466,21 +466,7 @@ The goal is to ensure that only secure container images are deployed while keepi
 
 * `DOCKER_USERNAME`
 * `DOCKER_PASSWORD`
-* `SLACK_WEBHOOK_URL`
-
----
-
-### 📌 Purpose
-
-* **DOCKER_USERNAME & DOCKER_PASSWORD**
-
-  * Authenticate with Docker Hub
-  * Enable pushing Docker images securely
-
-* **SLACK_WEBHOOK_URL**
-
-  * Sends HTTP POST requests to Slack channel
-  * Enables automated notifications without exposing credentials
+* `SLACK_WEBHOOK`
 
 ---
 
@@ -489,7 +475,16 @@ The goal is to ensure that only secure container images are deployed while keepi
 
 ### ✅ 1. GitHub Actions Logs
 
-<img width="1766" height="785" alt="T4-4 1" src="https://github.com/user-attachments/assets/09f1dfb2-7a88-445f-ae69-5135e1c755d9" />
+<img width="1889" height="608" alt="T4-4 1" src="https://github.com/user-attachments/assets/76f6daa2-4a2a-4c22-89d2-f6fb1407dcc2" />
+
+
+
+<img width="1852" height="818" alt="T4-4 2" src="https://github.com/user-attachments/assets/cbd7ec36-7c31-48f3-9162-902f8a91174d" />
+
+
+
+<img width="1869" height="1015" alt="T4-4 3" src="https://github.com/user-attachments/assets/b3eda96d-aa4a-4bd9-bbb2-b2e962b4e3d2" />
+
 
 ---
 
